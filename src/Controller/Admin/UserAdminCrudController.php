@@ -54,7 +54,7 @@ class UserAdminCrudController extends AbstractCrudController
             ->setEntityLabelInPlural("administrators")
             ->setEntityLabelInSingular("administrator")
             ->setPageTitle("index", "administrators")
-            ->setEntityPermission("ROLE_SUPER_ADMIN");
+            ->setEntityPermission("ROLE_ADMIN");
     }
 
     public function configureFields(string $pageName): iterable

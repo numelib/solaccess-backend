@@ -102,6 +102,6 @@ class DashboardController extends AbstractDashboardController
             UserAdminCrudController::class,
             "administrators",
             "fas fa-user-shield",
-        )->setPermission("ROLE_SUPER_ADMIN");
+        )->setPermission("ROLE_ADMIN");
     }
 }

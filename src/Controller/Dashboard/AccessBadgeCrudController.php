@@ -31,7 +31,7 @@ class AccessBadgeCrudController extends AbstractCrudController
             ->setQueryBuilder(function(QueryBuilder $qb): QueryBuilder {
                 return $qb
                     ->andwhere("entity.roles NOT LIKE '%ROLE_ADMIN%'")
-                    ->andwhere("entity.roles NOT LIKE '%ROLE_SUPER_ADMIN%'");
+                ;
             });
         yield DateField::new('enablingAt', 'enabling_at');
         yield DateField::new('disablingAt', 'disabling_at');

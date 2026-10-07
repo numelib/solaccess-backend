@@ -19,16 +19,6 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = (new User())
-            ->setEmail('support@syseco.fr')
-            ->setFirstname('Syseco')
-            ->setLastname('')
-            ->setIsActive(true)
-            ->setRoles(['ROLE_SUPER_ADMIN']);
-
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'superadmin'));
-        $manager->persist($user);
-
-        $user = (new User())
             ->setEmail('admin@test.fr')
             ->setFirstname('Admin')
             ->setLastname('Admin')

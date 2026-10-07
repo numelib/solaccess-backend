@@ -32,7 +32,7 @@ class AccessCodeCrudController extends AbstractCrudController
             ->setQueryBuilder(function(QueryBuilder $qb): QueryBuilder {
                 return $qb
                     ->andwhere("entity.roles NOT LIKE '%ROLE_ADMIN%'")
-                    ->andwhere("entity.roles NOT LIKE '%ROLE_SUPER_ADMIN%'");
+                ;
             });
         yield TextField::new('plainPin', 'PIN')
             ->setHelp('access_code_pin_help')

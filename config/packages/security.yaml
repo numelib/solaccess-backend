@@ -59,8 +59,7 @@ security:
         - { path: ^/api/device, roles: ROLE_DEVICE }
         - { path: ^/dashboard, roles: ROLE_USER }
     role_hierarchy:
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-        ROLE_ADMIN: [ROLE_DEVICE, ROLE_USER]
+        ROLE_ADMIN: [ROLE_ALLOWED_TO_SWITCH, ROLE_DEVICE, ROLE_USER]
 
 when@test:
     security:
