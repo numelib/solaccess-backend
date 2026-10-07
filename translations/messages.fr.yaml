@@ -1,0 +1,148 @@
+# File required for easyadminfriends/easyadmindashboard-bundle to translate labels
+# because we can't change the translation domain
+
+none: Aucun(e)
+controllers_list: Voir Contrôleurs
+logs_list: Voir Logs
+users_list: Voir Utilisateurs
+administrators_list: Voir Administrateurs
+
+user: Utilisateur
+users: Utilisateurs
+owner: Propriétaire
+owners: Propriétaires
+badge: Badge
+badges: Badges
+building: Bâtiment
+buildings: Bâtiments
+lock: Serrure
+unlock_ms: Durée déverrouillage (ms)
+relay_channel: Canal relais
+align_gpio: GPIO alignement
+align_active_high: Alignement actif haut
+align_delay_ms: Délai alignement (ms)
+align_timeout_ms: Timeout alignement (ms)
+close_on_align_timeout: Refermer au timeout
+access_methods: Méthodes d’accès
+administrator: Administrateur
+administrators: Administrateurs
+button_enabled: Bouton actif
+keypad_enabled: Digicode actif
+rfid_enabled: RFID actif
+nfc_enabled: NFC actif
+codes: Codes
+type: Type
+source: Source
+success: Succès
+reason: Raison
+credential_identifier: Credential
+raw_payload: Payload brut
+logs: Logs
+locks: Serrures
+door: Porte
+doors: Portes
+address: Adresse
+country: Pays
+city: Ville
+post_code: Code postal
+address_line: Adresse
+door_code: Digicode
+rfid: RFID
+network_controller: Controleur réseau
+network_controllers: Controleurs réseau
+identifier: Identifiant
+access_log: Log d’accès
+access_logs: Logs d’accès
+date: Date
+device: Contrôleur
+
+email: Email
+firstname: Prénom
+lastname: Nom
+password: Mot de passe
+password_confirmation: Confirmation du mot de passe
+is_profile_active: Profil actif
+is_active: Est actif
+last_login: Dernière connexion
+
+personnal_informations: Informations personnelles
+
+connected_lock.type: Type de serrure
+connected_lock.code: Code
+connected_lock.code.help: "Doit faire 4 caractères et peut contenir uniquement des chiffres et/ou les caractères suivants : *, #"
+connected_lock.relay_channel: Canal relais
+connected_lock.is_enabled: Ouvert/Fermé
+connected_lock.name: Identifiant
+connected_lock.is_code_enabled: Code PIN actif
+
+profile_activated: Profil activé
+
+door.name: Identifiant
+
+profile: Profil
+UID: UID
+PIN: PIN
+pin_hash: Hash PIN
+controller: Contrôleur
+controllers: Contrôleurs
+identification: Identification
+
+enabled: Actif
+name: Nom
+config_version: Version config
+token_public_id: Token public ID
+firmware: Firmware
+last_ip: Dernière IP
+last_contact: Dernier contact
+last_sync_at: Dernière synchro
+created_at: Créé le
+updated_at: Mis à jour le
+access_tab: Serrure / Accès
+access_device_lock: Configuration serrure
+access_control: Contrôle d’accès
+general_informations: Informations générales
+enabling_at: Activé le
+disabling_at: Désactivé le
+issued_at: Emis le
+processed_at: Réalisé le
+timeout_at: Timeout le
+status: Statut
+command_type: Type
+command_status:
+    timeout: "Timeout"
+    processed: "Terminé"
+    in_progress: "En cours"
+
+regenerate_token: "Régénérer token"
+confirm_token_regeneration: "Êtes-vous sûr de vouloir régénérer ce token ? ATTENTION : cette action est irréversible !"
+confirm_token_regeneration_label: "Confirmer"
+
+align_gpio_help: Numéro attribué à la broche GPIO utilisée pour le capteur magnétique de la porte
+align_gpio_high_help: Définit si la broche GPIO est "active high" (se déclenche quand le courant passe) ou "active low" (se déclenche quand il n'y a pas de courant)
+access_code_pin_help: Laisser vide pour conserver le PIN existant.
+access_device_alert_email_subject: "Un contrôlleur semble defectueux/déconnecté"
+
+contact_select_empty_error: Un contact existant doit être séléctionné.
+contact_create_info_missing_error: Un nom et prénom doivent être renseignés pour le nouveau contact.
+contact_select_wrong_owner: Le contact séléctionné ne fait pas partie de la liste des contacts du propriétaire du controlleur.
+
+lock_state: "État de la serrure"
+lock_states:
+    unlocked: "Ouvert"
+    locked: "Fermé"
+
+unlock_device: "Ouvrir serrure"
+command_history: "Historique des commandes"
+help:
+    profile:
+        isactive: Si désactivé, l'utilisateur ne peut pas se connecter à la plateforme
+        email: L'adresse e-mail est utilisée comme nom d'utilisateur pour se connecter à la plateforme
+
+You are receiving this email because a controller has not reported any information since: "Vous recevez cet email car un contrôlleur n'a pas remonté d'informations depuis le"
+Additional informations: Informations complémentaires
+Controller name: Nom du contrôleur
+Building: Bâtiment
+Latest report: Dernier relevé
+
+select_existing_contact: Sélectionner contact
+create_new_contact: Créer contact

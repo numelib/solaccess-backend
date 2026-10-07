@@ -1,0 +1,8 @@
+# config/packages/dev/monolog.yaml
+monolog:
+    handlers:
+        security:
+            type: stream
+            path: "%kernel.logs_dir%/security.log"
+            level: debug
+            channels: [security]

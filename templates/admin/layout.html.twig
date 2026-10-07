@@ -1,0 +1,33 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block configured_javascripts %}
+{{ parent() }}
+
+<script>
+    window.translations = {
+        'command_type': {
+            'unlock_device': '{{"unlock_device" | trans}}',
+        },
+        'command_status': {
+            'timeout': '{{ "command_status.timeout"|trans }}',
+            'processed': '{{ "command_status.processed"|trans }}',
+            'in_progress': '{{ "command_status.in_progress"|trans }}',
+        },
+        'lock_states': {
+            'locked': '{{ enum('App\\Config\\LockStates').LOCKED | trans }}',
+            'unlocked': '{{ enum('App\\Config\\LockStates').UNLOCKED | trans }}',
+        },
+    };
+</script>
+
+{% endblock %}
+
+{% block body_attr %}
+{% if ea?.entity?.primaryKeyValue != null %}
+data-entity-id="{{ ea.entity.primaryKeyValue }}"
+{% endif %}
+
+{% if ea?.crud?.currentPage != null %}
+data-crud-page="{{ ea.crud.currentPage }}"
+{% endif %}
+{% endblock %}

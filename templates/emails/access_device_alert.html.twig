@@ -1,0 +1,35 @@
+{% apply inline_css %}
+    <style>
+        h2 {
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        td, th {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
+
+    <p>{{ 'You are receiving this email because a controller has not reported any information since'|trans }} <b>{{ since|format_datetime() }}</b>.</p>
+    <h2>{{ 'Additional informations'|trans }} :</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Controller name'|trans }}</th>
+                <th>{{ 'Building'|trans }}</th>
+                <th>{{ 'Latest report'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for device in devices %}
+                <tr>
+                    <td>{{ device.name }}</td>
+                    <td>{{ device.building }}</td>
+                    <td>{{ device.lastSeenAt|format_datetime() }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    <table>
+{% endapply %}

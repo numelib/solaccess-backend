@@ -1,0 +1,17 @@
+{% set iconPath = '' %}
+{% set badgeClass = '' %}
+
+{% if field.value == enum('App\\Config\\LockStates').LOCKED %}
+{% set iconPath = 'icons/lock.html.twig' %}
+{% set badgeClass = 'badge-danger' %}
+{% endif %}
+
+{% if field.value == enum('App\\Config\\LockStates').UNLOCKED %}
+{% set iconPath = 'icons/unlock.html.twig' %}
+{% set badgeClass = 'badge-success' %}
+{% endif %}
+
+<span class="badge {{ badgeClass }}" data-lock-state="{{ field.value.value }}">
+    {{ include(iconPath, { classList: 'icon', size: '12' }) }}
+    <span class="label">{{ field.formattedValue|trans|raw }}</span>
+</span>

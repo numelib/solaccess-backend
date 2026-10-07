@@ -1,0 +1,16 @@
+@media screen and (min-width: 768px) {
+    body.ea-index-AccessDevice td.actions:not(.actions-as-dropdown) {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        row-gap: 0.5rem;
+    }
+
+    body.ea-index-AccessDevice td.actions:not(.actions-as-dropdown) > * {
+        flex-grow: 1;
+        text-align: left;
+        justify-content: start;
+        /* Override Easy Admin */
+        margin-inline-start: 0px !important;
+    }
+}

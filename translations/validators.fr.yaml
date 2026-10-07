@@ -1,0 +1,17 @@
+connected_lock.code.is_door_code_but_not_submitted: 'Un code d''accès doit être associé à une serrure de type "Digicode"'
+connected_lock.code.is_not_door_code_but_submitted: 'Un code d''accès ne doit pas être spécifié si la serrure n''est pas de type "Digicode"'
+
+network_controller.too_much_locks: "Ce controlleur ne peut être associé qu'à un maximum de %channels_count% serrures"
+mismatched_passwords: "Les mots de passe ne correspondent pas"
+
+door.mismatched_building_and_locks_controllers: "Le controlleur réseau d'une serrure de cette porte ne correspond par à celui du bâtiment de cette même porte."
+access_code.enabled_after_disabled: "Un code d'accès ne peut pas être activé à une date postérieure à celle où il est désactivé."
+acces_badge.enabled_after_disabled: "Un badge ne peut pas être activé à une date postérieure à celle où il est désactivé."
+
+unsecure_pin_code:
+    digit_only: Le code PIN doit contenir uniquement des chiffres.
+    min_length: Le code PIN doit contenir au moins {{ limit }} chiffres
+    repeated: Le code PIN ne peut pas être composé du même chiffre répété
+    sequential: Le code PIN ne peut pas être une suite
+
+contact_select_code_already_assigned_error: Le contact {{ contact }} possède déjà un code d'accès.

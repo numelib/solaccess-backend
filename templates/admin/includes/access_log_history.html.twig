@@ -1,0 +1,31 @@
+<table class="table table-striped" id="access-log-table">
+    <thead>
+        <tr>
+            <th id="access-log-occured-at">{{ 'date'|trans }}</th>
+            <th id="access-log-lock">{{ 'lock'|trans }}</th>
+            <th id="access-log-type">{{ 'type'|trans }}</th>
+            <th id="access-log-source">{{ 'source'|trans }}</th>
+            <th id="access-log-success">{{ 'success'|trans }}</th>
+            <th id="access-log-reason">{{ 'event'|trans }}</th>
+            <th id="access-log-label">{{ 'owner'|trans }}</th>
+            <th id="access-log-credential-identifier">{{ 'user'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for accessLog in accessLogs %}
+        <tr>
+            <td>{{ accessLog.occurredAt | date("d/m/Y H:i:s") }}</td>
+            <td>{{ accessLog.lock ?? ' - ' }}</td>
+            <td>{{ accessLog.type ?? ' - ' }}</td>
+            <td>{{ accessLog.source ?? ' - ' }}</td>
+            <td>{{ accessLog.success ?? ' - ' }}</td>
+            <td>{{ accessLog.reason ?? ' - ' }}</td>
+            <td>{{ accessLog.label ?? ' - ' }}</td>
+            <td>{{ accessLog.credentialIdentifier ?? ' - ' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<template id="access-log-row-template">
+</template>

@@ -1,0 +1,42 @@
+<div class="mb-4">
+    <p>Afficher uniquement :</p>
+    <div class="d-flex column-gap-3">
+        <button class="btn btn-secondary" data-command-period="1">Depuis 24 heures</button>
+        <button class="btn btn-secondary" data-command-period="7">Depuis 7 jours</button>
+        <button class="btn btn-secondary" data-command-period="30">Depuis 30 jours</button>
+    </div>
+</div>
+
+<table class="table table-striped" id="commands-table">
+    <thead>
+        <tr>
+            <th id="command-type">{{ 'command_type'|trans }}</th>
+            <th id="command-issued-at">{{ 'issued_at'|trans }}</th>
+            <th id="command-processed-at">{{ 'processed_at'|trans }}</th>
+            <th id="command-timeout-at">{{ 'timeout_at'|trans }}</th>
+            <th id="command-status">{{ 'status'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<div id="command-pagination-wrapper" class="d-flex column-gap-2 justify-content-center">
+
+</div>
+
+<template id="command-row-template">
+    <tr data-command-id="0">
+        <td data-col-id="command-type">N/A</td>
+        <td data-col-id="command-issued-at">N/A</td>
+        <td data-col-id="command-processed-at">N/A</td>
+        <td data-col-id="command-timeout-at">N/A</td>
+        <td data-col-id="command-status">
+            <div class="badge">N/A</div>
+        </td>
+    </tr>
+</template>
+
+<template id="command-pagination-button-template">
+    <button data-pagination-page="0" class="btn btn-secondary">0</button>
+</template>

@@ -1,0 +1,94 @@
+easy_admin_dashboard:
+    title: "Dashboard"
+    blocks:
+        block_1:
+            label: "access_control"
+            size: 12
+            css_class: text-primary
+            permissions: ["ROLE_ADMIN"]
+            items:
+                Controllers:
+                    label: "controllers"
+                    size: 6
+                    css_class: success text-dark
+                    class: App\Entity\AccessDevice
+                    controller: App\Controller\Admin\AccessDeviceCrudController
+                    icon: "fas fa-microchip"
+                    link_label: "controllers_list"
+                    permissions: ["ROLE_ADMIN"]
+                    hierarchy: false
+                Logs:
+                    label: "logs"
+                    size: 6
+                    css_class: success text-dark
+                    class: App\Entity\AccessLog
+                    controller: App\Controller\Admin\AccessLogCrudController
+                    icon: "fas fa-list"
+                    link_label: "logs_list"
+                    permissions: ["ROLE_ADMIN"]
+                    hierarchy: false
+        block_2:
+            label: "users"
+            size: 12
+            css_class: text-primary
+            permissions: ["ROLE_ADMIN"]
+            items:
+                Users:
+                    label: "users"
+                    size: 6
+                    css_class: dark text-dark
+                    class: App\Entity\User
+                    controller: App\Controller\Admin\UserCrudController
+                    icon: "fas fa-user"
+                    link_label: "users_list"
+                    permissions: ["ROLE_ADMIN"]
+                    dql_filter: "entity.roles LIKE '%%ROLE_USER%%'"
+                    hierarchy: false
+                Administators:
+                    label: "administrators"
+                    size: 6
+                    css_class: dark text-dark
+                    class: App\Entity\User
+                    controller: App\Controller\Admin\UserAdminCrudController
+                    icon: "fas fa-user-shield"
+                    link_label: "administrators_list"
+                    permissions: ["ROLE_ADMIN"]
+                    dql_filter: "entity.roles LIKE '%%ROLE_ADMIN%%'"
+                    hierarchy: false
+        # block_user_1:
+        #     label: "access_control"
+        #     size: 12
+        #     css_class: text-primary
+        #     permissions: ["ROLE_USER"]
+        #     hierarchy: false
+        #     items:
+        #         Locks:
+        #             label: "locks"
+        #             size: 6
+        #             css_class: success text-dark
+        #             class: App\Entity\Lock
+        #             controller: App\Controller\Dashboard\LockCrudController
+        #             icon: "fas fa-microchip"
+        #             link_label: "locks_list"
+        #             permissions: ["ROLE_USER"]
+        #             hierarchy: false
+        #         AccessLogs:
+        #             label: "access_logs"
+        #             size: 6
+        #             css_class: success text-dark
+        #             class: App\Entity\AccessLog
+        #             controller: App\Controller\Dashboard\AccessLogCrudController
+        #             icon: "fas fa-microchip"
+        #             link_label: "access_logs_list"
+        #             permissions: ["ROLE_USER"]
+        #             hierarchy: false
+        #         Buildings:
+        #             label: "buildings"
+        #             size: 6
+        #             css_class: success text-dark
+        #             class: App\Entity\Building
+        #             controller: App\Controller\Dashboard\BuildingCrudController
+        #             icon: "fas fa-microchip"
+        #             link_label: "controllers_list"
+        #             permissions: ["ROLE_USER"]
+        #             hierarchy: false
