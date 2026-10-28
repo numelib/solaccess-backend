@@ -9,7 +9,7 @@ use Symfony\Component\Scheduler\Schedule;
 use Symfony\Component\Scheduler\ScheduleProviderInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
-#[AsSchedule]
+#[AsSchedule('access_device_alerts')]
 class AccessDeviceAlertProcider implements ScheduleProviderInterface
 {
     public function __construct(
