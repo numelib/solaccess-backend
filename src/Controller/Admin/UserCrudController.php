@@ -24,7 +24,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserCrudController extends AbstractCrudController
 {
     public function __construct(
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly UserPasswordHasherInterface $passwordHasher,
     ){}
 
     public static function getEntityFqcn(): string
@@ -84,16 +84,33 @@ class UserCrudController extends AbstractCrudController
         }
     }
 
-    /**
-     * @param User $user
-     */
-    public function persistEntity(EntityManagerInterface $entityManager, $user): void
-    {
-        $password = $this->userPasswordHasher->hashPassword($user, $user->getPlainPassword());
-        $user
-            ->setPassword($password)
-            ->setRoles(['ROLE_USER']);
+    public function persistEntity(
+        EntityManagerInterface $entityManager,
+        $entityInstance,
+    ): void {
+        $this->encodePassword($entityInstance);
+        $entityInstance->setRoles(["ROLE_USER"]);
 
-        parent::persistEntity($entityManager, $user);
+        parent::persistEntity($entityManager, $entityInstance);
+    }
+
+    public function updateEntity(
+        EntityManagerInterface $entityManager,
+        $entityInstance,
+    ): void {
+        $this->encodePassword($entityInstance);
+
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    private function encodePassword(User $user): void
+    {
+        if ($user->getPlainPassword() != null) {
+            $hash = $this->passwordHasher->hashPassword(
+                $user,
+                $user->getPlainPassword(),
+            );
+            $user->setPassword($hash);
+        }
     }
 }

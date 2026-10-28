@@ -9,3 +9,9 @@
 
 controllers:
     resource: routing.controllers
+
+api_app_login:
+    path: /api/app/login
+
+api_app_refresh:
+    path: /api/app/token/refresh

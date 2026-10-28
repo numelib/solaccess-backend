@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\AccessDevice;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -57,6 +58,31 @@ class AccessDeviceRepository extends ServiceEntityRepository
             ->setParameter("ids", $ids)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllForUser(User $user): array
+    {
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.lock', 'l')
+            ->addSelect('l')
+            ->andWhere('d.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('d.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOneForUser(int $id, User $user): ?AccessDevice
+    {
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.lock', 'l')
+            ->addSelect('l')
+            ->andWhere('d.id = :id')
+            ->andWhere('d.user = :user')
+            ->setParameter('id', $id)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     //    /**
