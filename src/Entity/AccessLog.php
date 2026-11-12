@@ -40,11 +40,11 @@ class AccessLog
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $reason = null;
 
-    #[ORM\ManyToOne(inversedBy: 'logs', targetEntity: Contact::class)]
+    #[ORM\ManyToOne(targetEntity: Contact::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Contact $contactIdentifier = null;
 
-    #[ORM\ManyToOne(inversedBy: 'logs', targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $credentialIdentifier = null;
 

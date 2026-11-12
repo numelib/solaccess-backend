@@ -73,7 +73,7 @@ class AccessDevice implements UserInterface
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: "access_device")]
+    #[ORM\ManyToOne(inversedBy: "accessDevice")]
     private ?Building $building = null;
 
     #[ORM\Column(enumType: LockStates::class)]
