@@ -1,0 +1,10 @@
+framework:
+    rate_limiter:
+        portal_bridge_login:
+            policy: fixed_window
+            limit: 5
+            interval: '15 minutes'
+        portal_bridge_global:
+            policy: fixed_window
+            limit: 60
+            interval: '1 minute'
