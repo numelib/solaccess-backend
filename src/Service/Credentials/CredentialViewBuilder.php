@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\App;
+namespace App\Service\Credentials;
 
 use App\Entity\AccessBadge;
 use App\Entity\AccessCode;

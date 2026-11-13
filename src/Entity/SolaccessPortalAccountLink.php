@@ -37,6 +37,10 @@ class SolaccessPortalAccountLink
     #[ORM\Column(options: ['default' => true])]
     private bool $enabled = true;
 
+    // Les moyens d'accès peuvent ouvrir des serrures : droit séparé, désactivé par défaut.
+    #[ORM\Column(options: ['default' => false])]
+    private bool $canManageCredentials = false;
+
     public function __construct(string $clientId, string $externalUserId, User $solaccessUser)
     {
         $this->clientId = $clientId;
@@ -72,6 +76,17 @@ class SolaccessPortalAccountLink
     public function setEnabled(bool $enabled): static
     {
         $this->enabled = $enabled;
+        return $this;
+    }
+
+    public function canManageCredentials(): bool
+    {
+        return $this->canManageCredentials;
+    }
+
+    public function setCanManageCredentials(bool $allowed): static
+    {
+        $this->canManageCredentials = $allowed;
         return $this;
     }
 }

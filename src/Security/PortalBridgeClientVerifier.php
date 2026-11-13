@@ -9,20 +9,24 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Authentifie seulement le serveur du Portail Numelib, PAS l'utilisateur final.
- * La connexion utilisateur est vérifiée séparément à chaque ouverture de session.
+ * Chaque utilisateur est résolu via une association permanente Numelib-Symfony.
  */
 final class PortalBridgeClientVerifier
 {
     public function __construct(
         #[Autowire('%env(PORTAL_BRIDGE_SHARED_SECRET)%')]
         private readonly string $sharedSecret,
+        #[Autowire('%env(PORTAL_BRIDGE_WRITE_SECRET)%')]
+        private readonly string $writeSecret,
     ) {
     }
 
-    public function isTrusted(Request $request): bool
+    public function isTrusted(Request $request, bool $write = false): bool
     {
-        // En cas de configuration manquante/faible, ne jamais ouvrir la passerelle.
-        if (strlen($this->sharedSecret) < 43) {
+        // Les écritures exigent une clé DISTINCTE de celle des lectures.
+        // Absente, trop courte ou égale à la clé de lecture : refus systématique.
+        $secret = $write ? $this->writeSecret : $this->sharedSecret;
+        if (strlen($secret) < 43 || ($write && hash_equals($this->sharedSecret, $this->writeSecret))) {
             return false;
         }
 
@@ -31,6 +35,6 @@ final class PortalBridgeClientVerifier
             return false;
         }
 
-        return hash_equals($this->sharedSecret, substr($authorization, 7));
+        return hash_equals($secret, substr($authorization, 7));
     }
 }

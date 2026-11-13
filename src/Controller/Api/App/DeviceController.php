@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\App;
 
 use App\Entity\User;
 use App\Repository\AccessDeviceRepository;
@@ -9,8 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/app/controllers', name: 'api_app_controllers_')]
-final class AppControllerController extends AbstractController
+#[Route('/api/app/devices', name: 'api_app_devices_')]
+final class DeviceController extends AbstractController
 {
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(

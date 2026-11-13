@@ -95,7 +95,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section("users");
         yield MenuItem::linkTo(
             UserCrudController::class,
-            "users",
+            "portal_users",
             "fa-solid fa-user",
         )->setPermission("ROLE_ADMIN");
         yield MenuItem::linkTo(

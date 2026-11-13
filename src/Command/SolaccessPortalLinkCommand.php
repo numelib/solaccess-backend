@@ -33,7 +33,7 @@ final class SolaccessPortalLinkCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('action', InputArgument::REQUIRED, 'link | show | enable | disable | unlink')
+            ->addArgument('action', InputArgument::REQUIRED, 'link | show | enable | disable | unlink | credentials-enable | credentials-disable')
             ->addArgument('numelib-user-id', InputArgument::REQUIRED, 'ID de record Utilisateurs (rec...)')
             ->addArgument('solaccess-user-id', InputArgument::OPTIONAL, 'ID numérique de User Symfony (requis pour link)')
             ->setHelp('La liaison est créée explicitement par un administrateur. Aucun rapprochement automatique par e-mail.');
@@ -46,8 +46,8 @@ final class SolaccessPortalLinkCommand extends Command
         $externalId = (string) $input->getArgument('numelib-user-id');
         $userIdArg = $input->getArgument('solaccess-user-id');
 
-        if (!in_array($action, ['link', 'show', 'enable', 'disable', 'unlink'], true)) {
-            $io->error('Action inconnue. Choisir link, show, enable, disable ou unlink.');
+        if (!in_array($action, ['link', 'show', 'enable', 'disable', 'unlink', 'credentials-enable', 'credentials-disable'], true)) {
+            $io->error('Action inconnue. Choisir link, show, enable, disable, unlink, credentials-enable ou credentials-disable.');
             return Command::INVALID;
         }
         if (preg_match('/\Arec[A-Za-z0-9_-]{4,61}\z/D', $externalId) !== 1) {
@@ -100,6 +100,7 @@ final class SolaccessPortalLinkCommand extends Command
                 ['Utilisateur Numelib' => $link->getExternalUserId()],
                 ['User Symfony' => (string) $link->getSolaccessUser()->getId()],
                 ['État' => $link->isEnabled() ? 'activé' : 'désactivé'],
+                ['Gestion des badges et codes' => $link->canManageCredentials() ? 'autorisée' : 'interdite'],
             );
             return Command::SUCCESS;
         }
@@ -107,6 +108,17 @@ final class SolaccessPortalLinkCommand extends Command
             $this->em->remove($link);
             $this->em->flush();
             $io->success('Association supprimée.');
+            return Command::SUCCESS;
+        }
+        if (in_array($action, ['credentials-enable', 'credentials-disable'], true)) {
+            if ($action === 'credentials-enable' && (!$link->isEnabled() || $link->getSolaccessUser()->isActive() !== true)) {
+                $io->error('Activer d’abord la liaison et le compte Symfony.');
+                return Command::FAILURE;
+            }
+            $link->setCanManageCredentials($action === 'credentials-enable');
+            $this->em->flush();
+            $io->success($action === 'credentials-enable'
+                ? 'Gestion badges et codes autorisée.' : 'Gestion badges et codes désactivée.');
             return Command::SUCCESS;
         }
         if ($action === 'enable' && $link->getSolaccessUser()->isActive() !== true) {

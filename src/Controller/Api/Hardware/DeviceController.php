@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\Hardware;
 
 use App\Config\LockStates;
 use App\Entity\AccessDevice;
