@@ -11,8 +11,8 @@ use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Règles métier Contacts partagées entre les futurs transporteurs Bridge
- * et l'API JWT historique. Chaque opération reçoit explicitement l'acteur.
+ * Règles métier Contacts indépendantes du transport HTTP.
+ * Chaque opération reçoit explicitement le compte Solaccess concerné.
  */
 final class ContactManager
 {

@@ -32,28 +32,6 @@ security:
             custom_authenticators:
                 - App\Security\ApiKeyAuthenticator
 
-        # API du portail
-        app_api:
-            pattern: ^/api/app
-            stateless: true
-            provider: app_user_provider
-            user_checker: App\Security\UserChecker
-
-            entry_point: jwt
-
-            json_login:
-                check_path: /api/app/login
-                username_path: email
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
-            jwt: ~
-
-            refresh_jwt:
-                check_path: /api/app/token/refresh
-                provider: app_user_provider
-
         # Backoffice Symfony
         main:
             lazy: true
@@ -80,12 +58,7 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        - { path: ^/api/app/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/api/app/token/refresh$, roles: PUBLIC_ACCESS }
-
         - { path: ^/api/device, roles: ROLE_DEVICE }
-        - { path: ^/api/app, roles: ROLE_USER }
-        
         - { path: ^/admin, roles: ROLE_ADMIN }
 
     role_hierarchy:
