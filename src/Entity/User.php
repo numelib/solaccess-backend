@@ -32,10 +32,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
+    /** Le hash n'existe que pour les administrateurs du back-office. */
+    #[ORM\Column(nullable: true)]
     #[
         Assert\Regex(
             pattern: '/^\S*(?=\S{7,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/',
@@ -50,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             message: "Merci de saisir un mot de passe plus sécurisé",
         ),
     ]
-    private $plainPassword;
+    private ?string $plainPassword = null;
 
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
@@ -164,7 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(?string $password): static
     {
         $this->password = $password;
 
@@ -176,7 +174,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(string $password): self
+    public function setPlainPassword(?string $password): self
     {
         $this->plainPassword = $password;
 
@@ -189,10 +187,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __serialize(): array
     {
         $data = (array) $this;
-        $data["\0" . self::class . "\0password"] = hash(
-            "crc32c",
-            $this->password,
-        );
+        $data["\0" . self::class . "\0password"] = $this->password === null
+            ? null
+            : hash("crc32c", $this->password);
+
+        // Le mot de passe en clair ne doit jamais etre stocke dans la session.
+        unset($data["\0" . self::class . "\0plainPassword"]);
 
         return $data;
     }

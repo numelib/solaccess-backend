@@ -16,17 +16,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class UserCrudController extends AbstractCrudController
 {
-    public function __construct(
-        private readonly UserPasswordHasherInterface $passwordHasher,
-    ){}
-
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -69,15 +62,7 @@ class UserCrudController extends AbstractCrudController
             yield FormField::addColumn(6);
             yield FormField::addFieldset('profile')->setIcon('fa fa fa-user');
             yield Field::new('email', 'email')->setHelp('help.profile.email');
-            yield Field::new('plainPassword', 'password')
-                ->setFormType(RepeatedType::class)
-                ->setFormTypeOptions([
-                    'required' => $pageName === Crud::PAGE_NEW,
-                    'type' => PasswordType::class,
-                    'first_options' => ['label' => 'password'],
-                    'second_options' => ['label' => 'password_confirmation'],
-                    'invalid_message' => 'mismatched_passwords',
-            ]);
+            // Les utilisateurs du Portail Numelib n'ont pas de mot de passe Symfony.
             yield BooleanField::new('is_active', 'is_profile_active')->setHelp("help.profile.isactive");
 
             return;
@@ -88,8 +73,12 @@ class UserCrudController extends AbstractCrudController
         EntityManagerInterface $entityManager,
         $entityInstance,
     ): void {
-        $this->encodePassword($entityInstance);
-        $entityInstance->setRoles(["ROLE_USER"]);
+        if (!$entityInstance instanceof User) {
+            throw new \LogicException('Entite utilisateur attendue.');
+        }
+
+        $entityInstance->setRoles(['ROLE_USER']);
+        $entityInstance->setPassword(null);
 
         parent::persistEntity($entityManager, $entityInstance);
     }
@@ -98,19 +87,27 @@ class UserCrudController extends AbstractCrudController
         EntityManagerInterface $entityManager,
         $entityInstance,
     ): void {
-        $this->encodePassword($entityInstance);
+        $this->assertBusinessUser($entityInstance);
+        // Un ancien compte utilisateur peut encore porter un hash historique.
+        $entityInstance->setPassword(null);
 
         parent::updateEntity($entityManager, $entityInstance);
     }
 
-    private function encodePassword(User $user): void
+    public function deleteEntity(
+        EntityManagerInterface $entityManager,
+        $entityInstance,
+    ): void {
+        $this->assertBusinessUser($entityInstance);
+        parent::deleteEntity($entityManager, $entityInstance);
+    }
+
+    private function assertBusinessUser(mixed $entity): void
     {
-        if ($user->getPlainPassword() != null) {
-            $hash = $this->passwordHasher->hashPassword(
-                $user,
-                $user->getPlainPassword(),
-            );
-            $user->setPassword($hash);
+        // Une URL EasyAdmin directe ne doit pas permettre de toucher a un admin
+        // via ce CRUD qui reinitialise le mot de passe.
+        if (!$entity instanceof User || in_array('ROLE_ADMIN', $entity->getRoles(), true)) {
+            throw new AccessDeniedHttpException('Ce compte ne peut pas etre gere ici.');
         }
     }
 }

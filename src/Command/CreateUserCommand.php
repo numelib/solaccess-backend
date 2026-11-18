@@ -14,53 +14,62 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(name: 'app:create-user')]
-class CreateUserCommand
+final class CreateUserCommand
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserPasswordHasherInterface $userPaswwordHasher,
-    ){}
+        private readonly UserPasswordHasherInterface $passwordHasher,
+    ) {
+    }
 
-    public function __invoke(
-        InputInterface $input,
-        OutputInterface $output,
-    ){
+    public function __invoke(InputInterface $input, OutputInterface $output): int
+    {
         $helper = new QuestionHelper();
 
-        $question = new Question('Enter an email : ');
-        $email = $helper->ask($input, $output, $question);
-
-        $question = new Question('Enter a password : ');
-        $question->setHidden(true);
-        $password = $helper->ask($input, $output, $question);
-
-        $question = new Question('Confirm password : ');
-        $question->setHidden(true);
-        $confirmation = $helper->ask($input, $output, $question);
-
-        if($password !== $confirmation) {
-            $output->writeln('Passwords don\'t match.');
-            return Command::FAILURE;
-        }
-
-        $question = new Question('Firstname : ');
-        $firstname = $helper->ask($input, $output, $question);
-
-        $question = new Question('Lastname : ');
-        $lastname = $helper->ask($input, $output, $question);
+        $email = $helper->ask($input, $output, new Question('Enter an email : '));
+        $firstname = $helper->ask($input, $output, new Question('Firstname : '));
+        $lastname = $helper->ask($input, $output, new Question('Lastname : '));
 
         $question = new ChoiceQuestion('Choose a role : ', ['ROLE_ADMIN', 'ROLE_USER']);
         $question->setErrorMessage('Role is not in the list of possible choices.');
         $role = $helper->ask($input, $output, $question);
 
-        $user = (new User())
-            ->setEmail($email)
-            ->setRoles([$role])
-            ->setIsActive(true)
-            ->setFirstname($firstname)
-            ->setLastname($lastname);
+        if (!is_string($email) || trim($email) === ''
+            || !is_string($firstname) || trim($firstname) === ''
+            || !is_string($lastname) || trim($lastname) === ''
+        ) {
+            $output->writeln('<error>Email, firstname and lastname are required.</error>');
+            return Command::INVALID;
+        }
 
-        $user->setPassword($this->userPaswwordHasher->hashPassword($user, $password));
+        $user = (new User())
+            ->setEmail(trim($email))
+            ->setFirstname(trim($firstname))
+            ->setLastname(trim($lastname))
+            ->setRoles([$role])
+            ->setIsActive(true);
+
+        // Les comptes metier ROLE_USER sont lies a Numelib, pas a un login Symfony.
+        if ($role === 'ROLE_ADMIN') {
+            $question = new Question('Enter an administrator password : ');
+            $question->setHidden(true);
+            $password = $helper->ask($input, $output, $question);
+
+            $question = new Question('Confirm administrator password : ');
+            $question->setHidden(true);
+            $confirmation = $helper->ask($input, $output, $question);
+
+            if (!is_string($password) || $password === '' || $password !== $confirmation) {
+                $output->writeln('<error>Password is required and both entries must match.</error>');
+                return Command::INVALID;
+            }
+            if (preg_match('/^\S*(?=\S{7,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/', $password) !== 1) {
+                $output->writeln('<error>Password must have at least 7 characters, uppercase, lowercase and digit.</error>');
+                return Command::INVALID;
+            }
+
+            $user->setPassword($this->passwordHasher->hashPassword($user, $password));
+        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

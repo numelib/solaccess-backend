@@ -43,8 +43,7 @@ security:
                 success_handler: App\Security\AuthenticationSuccessHandler
             logout:
                 path: app_logout
-            user_checker:
-                App\Security\UserChecker
+            user_checker: App\Security\BackofficeUserChecker
             switch_user: []
 
                 # where to redirect after logout

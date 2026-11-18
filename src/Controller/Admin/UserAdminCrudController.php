@@ -19,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
@@ -104,9 +105,18 @@ class UserAdminCrudController extends AbstractCrudController
         EntityManagerInterface $entityManager,
         $entityInstance,
     ): void {
+        $this->assertAdministrator($entityInstance);
         $this->encodePassword($entityInstance);
 
         parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    public function deleteEntity(
+        EntityManagerInterface $entityManager,
+        $entityInstance,
+    ): void {
+        $this->assertAdministrator($entityInstance);
+        parent::deleteEntity($entityManager, $entityInstance);
     }
 
     #[AdminRoute("/{entityId:user.id}/contacts")]
@@ -126,12 +136,24 @@ class UserAdminCrudController extends AbstractCrudController
 
     private function encodePassword(User $user): void
     {
-        if ($user->getPlainPassword() != null) {
+        if ($user->getPlainPassword() !== null && $user->getPlainPassword() !== '') {
             $hash = $this->passwordHasher->hashPassword(
                 $user,
                 $user->getPlainPassword(),
             );
             $user->setPassword($hash);
+            $user->setPlainPassword(null);
+        }
+
+        if ($user->getPassword() === null || $user->getPassword() === '') {
+            throw new \LogicException('Un administrateur doit posseder un mot de passe.');
+        }
+    }
+
+    private function assertAdministrator(mixed $entity): void
+    {
+        if (!$entity instanceof User || !in_array('ROLE_ADMIN', $entity->getRoles(), true)) {
+            throw new AccessDeniedHttpException('Ce compte ne peut pas etre gere ici.');
         }
     }
 }

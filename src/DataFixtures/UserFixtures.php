@@ -35,7 +35,6 @@ class UserFixtures extends Fixture
             ->setIsActive(true)
             ->setRoles(['ROLE_USER']);
 
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'user'));
         $this->addReference(self::USER_ONE, $user);
         $manager->persist($user);
 
@@ -46,7 +45,6 @@ class UserFixtures extends Fixture
             ->setIsActive(true)
             ->setRoles(['ROLE_USER']);
 
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'other'));
         $this->addReference(self::USER_TWO, $user);
         $manager->persist($user);
 
@@ -57,7 +55,6 @@ class UserFixtures extends Fixture
             ->setIsActive(false)
             ->setRoles(['ROLE_USER']);
 
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'disabled'));
         $manager->persist($user);
 
         $manager->flush();
