@@ -49,7 +49,7 @@ final class CreateUserCommand
             ->setRoles([$role])
             ->setIsActive(true);
 
-        // Les comptes metier ROLE_USER sont lies a Numelib, pas a un login Symfony.
+        // Les comptes metier ROLE_USER n'utilisent pas la connexion du back-office.
         if ($role === 'ROLE_ADMIN') {
             $question = new Question('Enter an administrator password : ');
             $question->setHidden(true);

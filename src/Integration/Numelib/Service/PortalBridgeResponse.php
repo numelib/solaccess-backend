@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Bridge;
+namespace App\Integration\Numelib\Service;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,7 @@ final class PortalBridgeResponse
     {
         $response->headers->set('Cache-Control', 'no-store, private');
         $response->headers->set('Pragma', 'no-cache');
-        $response->headers->set('Vary', 'Authorization, X-Numelib-User-Id');
+        $response->headers->set('Vary', 'Authorization, X-Numelib-User-Id, X-Numelib-Admin-User-Id');
         return $response;
     }
 }

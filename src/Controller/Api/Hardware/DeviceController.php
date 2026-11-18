@@ -90,13 +90,16 @@ final class DeviceController extends AbstractController
                     isset($item["userId"]) && $item["userId"] != 0
                         ? $item["userId"]
                         : null;
-                if ($contactId !== null) {
-                    $c = $entityManager
+                // Un ESP32 ne doit pas pouvoir associer un journal au
+                // contact d'un autre proprietaire, meme si l'ID existe.
+                $owner = $device->getUser();
+                if ($contactId !== null && $owner !== null) {
+                    $contact = $entityManager
                         ->getRepository(Contact::class)
-                        ->find($contactId);
-                    if ($c !== null) {
-                        $contact = $c;
-                    }
+                        ->findOneBy([
+                            'id' => $contactId,
+                            'manager' => $owner,
+                        ]);
                 }
                 $log = new AccessLog()
                     ->setLock($device->getLock())

@@ -31,6 +31,6 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
         $this->tokenStorage->setToken(null);
         $request->getSession()->invalidate();
 
-        return new Response('Le tableau de bord utilisateur Solaccess est désormais accessible via le Portail Numelib.', Response::HTTP_FORBIDDEN);
+        return new Response("Ce compte ne dispose pas d’accès au back-office Solaccess.", Response::HTTP_FORBIDDEN);
     }
 }

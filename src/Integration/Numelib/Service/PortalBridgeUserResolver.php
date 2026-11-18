@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Bridge;
+namespace App\Integration\Numelib\Service;
 
-use App\Entity\SolaccessPortalAccountLink;
+use App\Integration\Numelib\Entity\SolaccessPortalAccountLink;
 use App\Entity\User;
-use App\Exception\PortalBridgeAccessException;
-use App\Security\PortalBridgeClientVerifier;
+use App\Integration\Numelib\Exception\PortalBridgeAccessException;
+use App\Integration\Numelib\Security\PortalBridgeClientVerifier;
 use App\Security\UserChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
+namespace App\Integration\Numelib\Exception;
 
 /** Refus d'accès du bridge, sans détail sensible dans le corps HTTP. */
 final class PortalBridgeAccessException extends \RuntimeException

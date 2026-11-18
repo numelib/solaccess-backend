@@ -7,8 +7,13 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    # Les écritures Bridge restent bloquées tant que ce secret privé n'est pas configuré.
+    # Integration optionnelle Numelib / Teable : secrets vides => acces refuse.
+    env(PORTAL_BRIDGE_SHARED_SECRET): ''
+    # Les ecritures exigent un second secret, distinct de la lecture.
     env(PORTAL_BRIDGE_WRITE_SECRET): ''
+    # L'intégration administrative Numelib est optionnelle en self-hosted.
+    env(PORTAL_BRIDGE_ADMIN_SECRET): ''
+    env(PORTAL_BRIDGE_ADMIN_USER_IDS): ''
     app.admin_email: "%env(ADMIN_EMAIL)%"
 
 services:

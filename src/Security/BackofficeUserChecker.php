@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Controle uniquement la connexion Symfony /admin.
- * UserChecker reste independant du role, car Bridge le reutilise.
+ * UserChecker reste independant du role pour les autres usages du compte.
  */
 final class BackofficeUserChecker implements UserCheckerInterface
 {

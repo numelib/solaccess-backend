@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Bridge;
+namespace App\Integration\Numelib\Controller;
 
-use App\Exception\PortalBridgeAccessException;
-use App\Service\Bridge\PortalBridgeResponse;
-use App\Service\Bridge\PortalBridgeUserResolver;
-use App\Service\PortalBridgeSnapshot;
+use App\Integration\Numelib\Exception\PortalBridgeAccessException;
+use App\Integration\Numelib\Service\PortalBridgeResponse;
+use App\Integration\Numelib\Service\PortalBridgeUserResolver;
+use App\Integration\Numelib\Service\PortalBridgeSnapshot;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;

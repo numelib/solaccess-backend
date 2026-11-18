@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Integration\Numelib\Service;
 
 use App\Entity\AccessDevice;
 use App\Entity\Contact;

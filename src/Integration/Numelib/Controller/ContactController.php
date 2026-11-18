@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Bridge;
+namespace App\Integration\Numelib\Controller;
 
 use App\Exception\ContactOperationException;
-use App\Exception\PortalBridgeAccessException;
-use App\Service\Bridge\PortalBridgeResponse;
-use App\Service\Bridge\PortalBridgeUserResolver;
+use App\Integration\Numelib\Exception\PortalBridgeAccessException;
+use App\Integration\Numelib\Service\PortalBridgeResponse;
+use App\Integration\Numelib\Service\PortalBridgeUserResolver;
 use App\Service\Contacts\ContactManager;
 use App\Service\Contacts\ContactViewBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;

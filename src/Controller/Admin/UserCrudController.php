@@ -62,7 +62,7 @@ class UserCrudController extends AbstractCrudController
             yield FormField::addColumn(6);
             yield FormField::addFieldset('profile')->setIcon('fa fa fa-user');
             yield Field::new('email', 'email')->setHelp('help.profile.email');
-            // Les utilisateurs du Portail Numelib n'ont pas de mot de passe Symfony.
+            // Les comptes métier ne disposent pas de connexion au back-office Symfony.
             yield BooleanField::new('is_active', 'is_profile_active')->setHelp("help.profile.isactive");
 
             return;
@@ -104,10 +104,10 @@ class UserCrudController extends AbstractCrudController
 
     private function assertBusinessUser(mixed $entity): void
     {
-        // Une URL EasyAdmin directe ne doit pas permettre de toucher a un admin
-        // via ce CRUD qui reinitialise le mot de passe.
+        // Une URL EasyAdmin directe ne doit pas permettre de toucher à un admin
+        // via ce CRUD qui réinitialise le mot de passe.
         if (!$entity instanceof User || in_array('ROLE_ADMIN', $entity->getRoles(), true)) {
-            throw new AccessDeniedHttpException('Ce compte ne peut pas etre gere ici.');
+            throw new AccessDeniedHttpException('Ce compte ne peut pas etre géré ici.');
         }
     }
 }
